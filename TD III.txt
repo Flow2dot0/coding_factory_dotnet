@@ -1,0 +1,311 @@
+- Créer un projet ASP.NET Vide nommé "TD_mvc"
+- Accepter les packets proposé par Visual Studio
+- Mettre à jour les packets
+- Ajouter un dossier "ViewModels" à la racine de TD_mvc
+- Ajouter un dossier "Home" et "Shared" à la racine de Views
+
+Home est le répertoire de vue par defaut
+Shared est le répertoire de vue partagé
+
+- Ajouter un fichier Page de vue ASP.NET MVC (Razor) nommé _ViewStart
+
+_ViewStart est le fichier "View" qui est appelé avant tous les autres fichier "View".
+
+Contenu du fichier _ViewStart.cshtml :
+@{
+    Layout = "~/Views/Shared/Layout.cshtml";
+}
+
+- Ajouter un fichier Page de disposition ASP.NET MVC (Razor) nommé "Layout" dans le dossier View/Shared
+
+Comme précisé dans ViewStart.cshtml, Layout.cs est la vue parent. On peut y intégré des éléments qui seront appellé sur chaque vue
+
+Contenu du fichier  Layout.cshtml :
+<!DOCTYPE html>
+<html>
+<head>
+    <title>@ViewBag.Title</title>
+    <meta charset="utf-8" />
+    <link type="text/css" href="../../Content/main.css" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>
+
+- Ajouter un fichier Page de vue ASP.NET MVC (Razor) nommée "Index" dans le dossier View/Home
+
+Index est le fichier de vue par defaut pour chaque controller
+ViewBag.Title permet de définir le contenu de la variable @ViewBag.Title présente dans Layout.cshtml
+
+Contenu du fichier Index :
+@{
+    ViewBag.Title = "Accueil";
+}
+
+<header>Hello World !</header>
+
+- Ajouter un fichier CSS Vide nommé "Main" dans le dossier Content
+
+Contenu du fichier Main.css :
+body {
+    background-color: #dfdfdf;
+}
+
+- Ajouter un fichier de Classe Vide nommé "Log" dans le dossier Models
+
+Models sert à définir des modèles de données
+Log servira à afficher du contenu dans la console.
+
+Contenu du fichier Log.cs :
+namespace TD_mvc.Models
+{
+    public class Log
+    {
+        public string Text { get; private set; }
+
+        public Log(string text)
+        {
+            this.Text = text;
+            System.Diagnostics.Debug.WriteLine(text);
+        }
+    }
+}
+
+- Ajouter un controlleurs nommé "HomeController" dans le dossier Controllers
+
+Home est le nom du controller par defaut d'un projet MVC
+using sert à appellé les librairies nécessaire.
+
+Contenu du fichier HomeController.cs :
+using System.Collections.Generic;
+using System.Web.Mvc;
+using TD_mvc.Models;
+
+namespace TD_mvc.Controllers
+{
+    public class HomeController : Controller
+    {
+    	public ActionResult Index()
+        {
+            Log log = new Log("Hello Log !");
+            return View();
+        }
+    }
+}
+
+- Corriger une erreur de Mise à jour dans Views/Web.config
+
+Remplacer la version affiché par :
+<host factoryType="System.Web.Mvc.MvcWebRazorHostFactory, System.Web.Mvc, Version=5.2.6.0
+
+- Lancer le projet
+
+Hello World ! devrait s'afficher dans le navigateur
+Hello Log devrait s'afficher dans la console
+
+- Modifier Views/Home/Index.cshtml
+
+@Html.ActionLink est un helper, il permet de générer du HTML automatiquement.
+
+Remplacer :
+<header>Hello World !</header>
+Par :
+<header>
+    <p>Dotnet - MVC</p>
+    <nav>
+        <button>@Html.ActionLink("Accueil", "Index", "Home")</button>
+        <button>@Html.ActionLink("À propos", "Index", "Home")</button>
+    </nav>
+</header>
+<section>
+    <article>Hello World !</article>
+</section>
+
+- Modifier Content/Main.css :
+body {
+    display: flex;
+    flex-direction: column;
+    background-color: #dfdfdf;
+}
+
+header {
+    padding-bottom: 20px;
+}
+
+header p, nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    color: #000000;
+    text-decoration: none;
+}
+
+- Ajouter un controlleurs nommé "AboutController" dans le dossier Controllers
+
+Contenu du fichier AboutController.cs :
+using System.Web.Mvc;
+
+namespace TD_mvc.Controllers
+{
+    public class AboutController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View ();
+        }
+    }
+}
+
+- Ajouter un dossier "About" à la racine de Views
+- Ajouter un fichier Page de vue ASP.NET MVC (Razor) nommée "Index" dans le dossier View/About
+
+Index est le fichier de vue par defaut pour chaque controller
+
+Contenu du fichier Index.cshtml :
+@{
+    ViewBag.Title = "À propos";
+}
+<header>
+    <p>Dotnet - MVC</p>
+    <nav>
+        <button>@Html.ActionLink("Accueil", "Index", "Home")</button>
+        <button>@Html.ActionLink("À propos", "Index", "Home")</button>
+    </nav>
+</header>
+<section>
+    <article>Contenu de À propos</article>
+</section>
+
+- Actualiser le navigateur pour voir les changements
+(Note : Il est parfois nécessaire de relancer l'éxécution du projet)
+
+- Ajouter un fichier de Classe Vide nommé "Group" dans le dossier Models
+
+Contenu du fichier Group.cs :
+namespace TD_mvc.Models
+{
+    public class Group
+    {
+        public string Nom { get; set; }
+    }
+}
+
+- Ajouter un fichier Page de vue ASP.NET MVC (Razor) nommée "DisplayGroup" dans le dossier View/About
+
+Contenu du fichier DisplayGroup.cshtml :
+@model TD_mvc.Models.Group
+
+<article>Nom de groupe : @Model.Nom</article>
+
+- Modifier Controllers/AboutController.Cs :
+
+Ajouter les nouveaux éléments ( using et la méthode DisplayGroup() ) :
+...
+using TD_mvc.Models;
+
+namespace TD_mvc.Controllers
+{
+    public class AboutController : Controller
+    {
+        ...
+
+        public ActionResult DisplayGroup()
+        {
+            Group group = new Group();
+            group.Nom = "AwesomeGroup";
+
+            return PartialView (group);
+        }
+    }
+}
+
+- Modifier Views/About/Index.cshtml
+
+Remplacer :
+<article>Contenu de À propos</article>
+Par :
+@Html.Action("DisplayGroup")
+
+- Actualiser le navigateur pour voir les changements
+(Note : Il est parfois nécessaire de relancer l'éxécution du projet)
+
+- Modifier Controllers/AboutController.Cs :
+
+Remplacer la méthode DisplayGroup :
+public ActionResult DisplayGroup(Group group)
+{
+	if (string.IsNullOrWhiteSpace(group.Nom)) {
+		group.Nom = "AwesomeGroup";
+	}
+
+	return PartialView (group);
+}
+
+- Modifier Views/About/DisplayGroup.cshtml :
+
+Rajouter l'attribut id :
+<article id="SetGroup">Nom de groupe : @Model.Nom</article>
+
+- Modifier Views/About/Index.cshtml :
+
+Ajouter les élement suivant :
+...
+@using (Ajax.BeginForm("Index", new AjaxOptions
+{
+    HttpMethod = "GET",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "SetGroup",
+}))
+{
+    <section>
+        <article>
+            @Html.LabelFor(m => m.Nom)
+            @Html.TextBoxFor(m => m.Nom)
+            <input type="submit" value="Valider" />
+        </article>
+    </section>
+}
+
+- Modifier Models/Group.cs :
+using System.ComponentModel.DataAnnotations;
+
+namespace TD_mvc.Models
+{
+    public class Group
+    {
+        [Display(Name = "Nom de groupe :")]
+        public string Nom { get; set; }
+    }
+}
+
+- Actualiser le navigateur pour voir les changements
+(Note : Il est parfois nécessaire de relancer l'éxécution du projet)
+(Note : Ici, les données ne sont pas persistance entre les changements de vues)
+
+- Se renseigner sur MVC
+- Se renseigner sur les Vues et les Vue Partielles ( View() et PartialView() )
+- Se renseigner sur les controllers
+- Se renseigner sur les models
+- Se renseigner sur les helpers
+
+Exercices :
+
+a) Créer un controller et sa vue nommé "Cours"
+b) Afficher "Sujet de la semaine : " suivi d'une variable qui contiendra le cours de la semaine (Dotnet)
+c) Faire un formulaire avec Ajax pour modifier le contenu de la variable du coup de la semaine.
+d) Afficher tous autre information de votre choix pour tester des choses.
+e) Se renseigner sur "List"
+f) Contenir dans une List le nom de tous les étudiants de la classe.
+g) Afficher toutes la liste des étudiants dans la vue Cours

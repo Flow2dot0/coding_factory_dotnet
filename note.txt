@@ -1,0 +1,29 @@
+1 note pour chaque étudiant du groupe dont vous même
+1 note global pour le groupe
+
+Travail d'équipe (0; 0,5; 1; 1,5; 2) :
+Communication, cohésion et partage
+
+Bienveillant (0; 0,5; 1; 1,5; 2) :
+Aimable, sociable, indulgente
+
+Motivation (0; 0,5; 1; 1,5; 2) :
+Motiver, persévérence, sérieux
+
+
+
+
+Question de groupe :
+
+Qu'elles ont été les difficultés principales ?
+
+Quel a été le ressenti global de la semaine ?
+
+À combien de pourcentage estimez vous avoir progresser en Algo ?
+
+Avez vous des remarques ou des questions à dire sur la semaine ou sur l'Algo ?
+
+
+
+studio@angamara.fr
+
